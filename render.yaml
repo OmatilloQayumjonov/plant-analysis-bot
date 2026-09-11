@@ -10,6 +10,6 @@ services:
       - key: OPENBLAS_NUM_THREADS
         value: "1"
       - key: BOT_TOKEN
-        sync: false
+        value: "8939401003:AAGO2fMFsR489ZisMQO4DGZBETAt6W478ag"
       - key: PYTHON_VERSION
         value: 3.11.8
