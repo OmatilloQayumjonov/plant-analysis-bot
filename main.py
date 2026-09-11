@@ -58,7 +58,7 @@ from openpyxl.styles import Font, Alignment, Border, Side
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8939401003:AAGO2fMFsR489ZisMQO4DGZBETAt6W478ag").strip()
 TEMPLATE_PATH = os.path.join(BASE_DIR, "DPPH_template.xlsx")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
