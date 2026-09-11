@@ -731,22 +731,23 @@ async def execute_calculation(message: Message, state: FSMContext, raw_text: str
 # =====================================================================
 
 async def start_web_server():
-    port_str = os.getenv("PORT")
-    if port_str:
-        try:
-            port = int(port_str)
-            app = web.Application()
-            async def handle_ping(request):
-                return web.Response(text="🤖 Plant Chemical Analysis Bot is running 24/7!")
-            app.router.add_get("/", handle_ping)
-            app.router.add_get("/health", handle_ping)
-            runner = web.AppRunner(app)
-            await runner.setup()
-            site = web.TCPSite(runner, "0.0.0.0", port)
-            await site.start()
-            logger.info(f"🌐 Cloud Web Server {port}-portda ishga tushdi va port ochiq.")
-        except Exception as e:
-            logger.warning(f"Web serverni ishga tushirishda xatolik: {e}")
+    port_str = os.getenv("PORT", "10000")
+    try:
+        port = int(port_str)
+        app = web.Application()
+        async def handle_ping(request):
+            return web.Response(text="🤖 Plant Chemical Analysis Bot is running 24/7!")
+        app.router.add_get("/", handle_ping)
+        app.router.add_get("/health", handle_ping)
+        runner = web.AppRunner(app)
+        await runner.setup()
+        site = web.TCPSite(runner, "0.0.0.0", port)
+        await site.start()
+        print(f"🌐 Cloud Web Server {port}-portda muvaffaqiyatli ishga tushdi!", flush=True)
+        logger.info(f"🌐 Cloud Web Server {port}-portda ishga tushdi va port ochiq.")
+    except Exception as e:
+        print(f"Web serverni ishga tushirishda xatolik: {e}", flush=True)
+        logger.warning(f"Web serverni ishga tushirishda xatolik: {e}")
 
 async def main():
     await start_web_server()
@@ -763,6 +764,7 @@ async def main():
             await asyncio.sleep(3600)
         return
 
+    print("🤖 Plant Chemical Analysis (DPPH / IC50) bot ishga tushmoqda...", flush=True)
     logger.info("🤖 Plant Chemical Analysis (DPPH / IC50) bot ishga tushmoqda...")
 
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
@@ -772,8 +774,10 @@ async def main():
     try:
         await bot.delete_webhook(drop_pending_updates=True)
         bot_info = await bot.get_me()
+        print(f"✅ Bot muvaffaqiyatli ulandi: @{bot_info.username} ({bot_info.first_name})", flush=True)
         logger.info(f"✅ Bot muvaffaqiyatli ulandi: @{bot_info.username} ({bot_info.first_name})")
     except Exception as e:
+        print(f"❌ Telegram API ga ulanishda xatolik: {e}", flush=True)
         logger.error(f"Telegram API ga ulanishda xatolik: {e}")
 
     try:
