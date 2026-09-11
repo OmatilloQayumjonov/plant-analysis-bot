@@ -11,6 +11,12 @@ import os
 import io
 import asyncio
 import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger("plant_analysis_bot")
 import base64
 import shutil
 from datetime import datetime
